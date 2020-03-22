@@ -1,0 +1,14 @@
+﻿[
+  {
+    "outputFileName": "wwwroot/js/showedit.min.js",
+    "inputFiles": [
+      "js/ShowEdit.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/movieFan.min.js",
+    "inputFiles": [
+      "js/movieFan.js"
+    ]
+  }
+]

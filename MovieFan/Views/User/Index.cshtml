@@ -1,0 +1,20 @@
+﻿@model List<Users>
+@{
+
+    ViewData["Title"] = "Users";
+    Layout = "~/views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h1>Liste des utilisateur</h1>
+    @foreach (Users user in Model)
+    {
+        <a href="/User/Details/@user.Id">
+            <div class="row border p-3">
+                @user.Firstname
+
+            </div>
+        </a>
+    }
+
+</div>

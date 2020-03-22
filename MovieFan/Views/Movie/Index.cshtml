@@ -1,0 +1,22 @@
+﻿@model List<Movies>
+@{
+
+    ViewData["Title"] = "Movies";
+    Layout = "~/views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+        <h1>Liste des films</h1>
+        <a asp-action="Create" class="btn btn-sm btn-success m-3">Nouveau film</a>
+        @foreach (Movies movie in Model) {
+            <a href="/Movie/Details/@movie.Id">
+                <div class="row border p-3">
+                    <div class="col-4"><img src="~/assets/pictures/@movie.Picture" Width="100" Height="50" /></div>
+                    <div class="col-4">@movie.Title</div>
+                    <div class="col-2">@movie.Category.Name</div>
+                    <div class="col-2">@movie.Rating.Name</div>
+                </div>
+            </a>
+        }
+
+</div>

@@ -1,0 +1,24 @@
+﻿@model MovieFan.Models.Users
+@{ 
+    ViewData["Title"] = "Details";
+    Layout = "~/views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Firstname) : @Model.Firstname
+        </dt>
+        <dt class="col-sm-2">
+            @(Model.IsAdministrator ? "Est un administrateur " : "N'est pas un administrateur")
+        </dt>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { Model.Id }) |
+    <a asp-action="Index">Back to the list</a>
+</div>
