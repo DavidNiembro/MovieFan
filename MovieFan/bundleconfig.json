@@ -10,5 +10,11 @@
     "inputFiles": [
       "js/movieFan.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/movieindex.min.js",
+    "inputFiles": [
+      "js/MovieIndex.js"
+    ]
   }
 ]

@@ -28,7 +28,10 @@ namespace MovieFan.Controllers
         // GET: User/Details/5
         public ActionResult Details(int id)
         {
-            Users user = db.Users.Find(id);
+            Users user = db.Users
+                   .Include(u=>u.UserLikeMovie)
+                   .ThenInclude(ulm => ulm.Movie)
+                   .SingleOrDefault(u => u.Id == id);
             return View(user);
         }
 
@@ -99,6 +102,15 @@ namespace MovieFan.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult ManageMovies(int id)
+        {
+            Users user = db.Users
+                   .Include(u => u.UserLikeMovie)
+                   .ThenInclude(ulm => ulm.Movie)
+                   .SingleOrDefault(u => u.Id == id);
+            return View(user);
         }
     }
 }

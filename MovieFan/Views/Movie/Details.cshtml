@@ -2,58 +2,57 @@
 @{ 
     ViewData["Title"] = "Details";
     Layout = "~/views/Shared/_Layout.cshtml";
-
+    Helpers.ViewModes viewMode = ViewBag.viewMode ?? Helpers.ViewModes.Show;
 }
 
-@if (ViewBag.create == null)
-{
-    <div id="divShow">
-        <div class="row">
-            <h4>Détail de @Model.Title</h4>
-            <div id="cmdEdit" class="btn btn-sm btn-primary ml-5">Editer</div>
-            <a asp-action="Index" class="btn btn-sm brn-info ml-3">Retour à la liste</a>
-        </div>
-        <hr />
-        <div class="row">
-            <label asp-for="ReleaseDate" class="control-label mr-3 col-2"></label>
-            <div class="col-8">
-                @String.Format("{0:dddd, dd MMMM yyyy}", Model.ReleaseDate)
-            </div>
-        </div>
-        <hr />
-        <div class="row">
-            <label asp-for="Synopsis" class="control-label mr-3 col-2"></label>
-            <div class="col-8">
-                @Model.Synopsis
-            </div>
-        </div>
-        <hr />
-        <div class="row">
-            <label asp-for="Category.Name" class="control-label mr-3 col-2"></label>
-            <div class="col-8">
-                @Model.Category.Name
-            </div>
-        </div>
-        <hr />
-        <div class="row">
-            <label asp-for="Rating.Name" class="control-label mr-3 col-2"></label>
-            <div class="col-8">
-                @Model.Rating.Name
-            </div>
-        </div>
-        <hr />
-        <div class="row">
-            <label asp-for="Likers" class="control-label mr-3 col-2"></label>
-            <div class="col-8">
-                @String.Join(", ", Model.Likers)
-            </div>
+
+<div id="divShow" @(viewMode != Helpers.ViewModes.Show ? "class=d-none" : "")>
+    <div class="row">
+        <h4>Détail de @Model.Title</h4>
+        <div id="cmdEdit" class="btn btn-sm btn-primary ml-5">Editer</div>
+        <a asp-action="Index" class="btn btn-sm brn-info ml-3">Retour à la liste</a>
+    </div>
+    <hr />
+    <div class="row">
+        <label asp-for="ReleaseDate" class="control-label mr-3 col-2"></label>
+        <div class="col-8">
+            @String.Format("{0:dddd, dd MMMM yyyy}", Model.ReleaseDate)
         </div>
     </div>
-}
-<div id="divEdit" class=@(ViewBag.create != null ? "" : "d-none")>
-    <form asp-action="@(ViewBag.create != null ? "Create" : "Edit")">
+    <hr />
+    <div class="row">
+        <label asp-for="Synopsis" class="control-label mr-3 col-2"></label>
+        <div class="col-8">
+            @Model.Synopsis
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <label asp-for="Category.Name" class="control-label mr-3 col-2"></label>
+        <div class="col-8">
+            @Model.Category.Name
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <label asp-for="Rating.Name" class="control-label mr-3 col-2"></label>
+        <div class="col-8">
+            @Model.Rating.Name
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <label asp-for="Likers" class="control-label mr-3 col-2"></label>
+        <div class="col-8">
+            @String.Join(", ", Model.Likers)
+        </div>
+    </div>
+</div>
+
+<div id="divEdit" class=@(viewMode != Helpers.ViewModes.Show ? "" : "d-none")>
+    <form asp-action="@(viewMode == Helpers.ViewModes.Create ? "Create" : "Edit")">
         <div class="row">
-            @if (ViewBag.create != null)
+            @if (viewMode == Helpers.ViewModes.Create)
             {
                 <h4>Nouveau film</h4>
             }
@@ -62,7 +61,7 @@
                 <h4>Modification de @Model.Title</h4>
             }
             <input type="submit" class="btn btn-sm btn-success ml-5" value="Enregister" />
-            @if (ViewBag.create == null)
+            @if (viewMode != Helpers.ViewModes.Create)
             {
                 <div id="cmdCancel" class="btn btn-sm btn-info ml-3 mr-5">Annuler</div>
                 <div id="cmdDelete" class="btn btn-sm btn-danger ml-5">Supprimer</div>
@@ -103,6 +102,7 @@
             <span asp-validation-for="Rating" class="text-danger"></span>
         </div>
         <input type="hidden" name="id" value="@Model.Id" />
+        <input type="hidden" name="Picture" value="@Model.Picture"
         <hr />
 
     </form>

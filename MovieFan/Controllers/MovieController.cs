@@ -20,9 +20,20 @@ namespace MovieFan.Controllers
             this.db = db;
         }
         // GET: Movie
-        public ActionResult Index()
+        public ActionResult Index(int CategoryId)
         {
-            List<Movies> allmovies = db.Movies.Include(c=>c.Category).Include(r => r.Rating).ToList();
+            List<SelectListItem> categories = db.Categories.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name, Selected = (x.Id == CategoryId) }).ToList();
+            categories.Insert(0, new SelectListItem { Value = "0", Text= "(Toutes)" });
+            ViewBag.Categories = categories;
+            List<Movies> allmovies;
+            if (CategoryId==0)
+            {
+                allmovies = db.Movies.Include(c => c.Category).Include(r => r.Rating).ToList();
+            }
+            else
+            {
+                allmovies = db.Movies.Where(m => m.CategoryId == CategoryId).Include(c => c.Category).Include(r => r.Rating).ToList();
+            }
             return View(allmovies);
         }
 
@@ -33,7 +44,7 @@ namespace MovieFan.Controllers
             ViewBag.Categories = categories;
             ViewBag.ratings = db.Ratings.ToList();
             Movies movie = db.Movies.Include(c => c.Category).Include(r => r.Rating).First(m => m.Id == id);
-            return View(movie);
+            return View("Details",movie);
         }
 
         // GET: Movie/Create
@@ -59,11 +70,14 @@ namespace MovieFan.Controllers
                 db.SaveChanges();
                 TempData["flashmessage"] = "Film ajouté";
                 TempData["flashmessagetype"] = "info";
+                ViewBag.viewMode = Helpers.ViewModes.Show;
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                TempData["flashmessage"] = "Problème...";
+                TempData["flashmessagetype"] = "danger";
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -96,9 +110,11 @@ namespace MovieFan.Controllers
                 {
                     TempData["flashmessage"] = "Un problème est survenu";
                     TempData["flashmessagetype"] = "danger";
+                    ViewBag.viewMode = Helpers.ViewModes.Edit;
                     return View("Details", movie);
                 }
             else {
+                ViewBag.viewMode = Helpers.ViewModes.Edit;
                 return Details(id);
             }
         }
@@ -120,8 +136,6 @@ namespace MovieFan.Controllers
                 db.SaveChanges();
                 TempData["flashmessage"] = "Film supprimé";
                 TempData["flashmessagetype"] = "info";
-
-                return RedirectToAction(nameof(Index));
             }
             catch
             {
@@ -129,6 +143,7 @@ namespace MovieFan.Controllers
                 TempData["flashmessagetype"] = "danger";
                 return View();
             }
+            return RedirectToAction(nameof(Index));
         }
     }
 }

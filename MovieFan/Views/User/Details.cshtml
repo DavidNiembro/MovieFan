@@ -4,21 +4,16 @@
     Layout = "~/views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
-
 <div>
-    <h4>User</h4>
+    <h4>Détails concernant @Model.Firstname @Model.Lastname</h4>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Firstname) : @Model.Firstname
-        </dt>
-        <dt class="col-sm-2">
+    <div class="row">
             @(Model.IsAdministrator ? "Est un administrateur " : "N'est pas un administrateur")
-        </dt>
-    </dl>
+    </div>
+    <hr />
+    @await Html.PartialAsync("_MyMovies",Model)
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { Model.Id }) |
-    <a asp-action="Index">Back to the list</a>
+    <a asp-action="ManageMovies" asp-route-id="@Model.Id" class="btn btn-sm btn-primary ml-5">Gérer les films</a>
+    <a asp-action="Index" class="btn btn-info btn-sm" ml-3>Back to the list</a>
 </div>

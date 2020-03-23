@@ -5,18 +5,26 @@
     Layout = "~/views/Shared/_Layout.cshtml";
 }
 
-<div class="container">
+    <div class="container">
         <h1>Liste des films</h1>
+        <form id="frmSelectCategory" asp-action="Index">
+            <div class="form-group row">
+                <label for="CategoryId" class="control-label col-2">Catégorie</label>
+                <select id="CategoryId" name="CategoryId" asp-items="ViewBag.Categories" class="form-control col-6" ></select>
+            </div>
+        </form>
         <a asp-action="Create" class="btn btn-sm btn-success m-3">Nouveau film</a>
-        @foreach (Movies movie in Model) {
+        @foreach (Movies movie in Model)
+        {
             <a href="/Movie/Details/@movie.Id">
                 <div class="row border p-3">
-                    <div class="col-4"><img src="~/assets/pictures/@movie.Picture" Width="100" Height="50" /></div>
+                    <div class="col-4"><img src="~/assets/pictures/@movie.Picture" Width="50" Height="50" /></div>
                     <div class="col-4">@movie.Title</div>
                     <div class="col-2">@movie.Category.Name</div>
                     <div class="col-2">@movie.Rating.Name</div>
                 </div>
             </a>
         }
+    </div>
 
-</div>
+    <script src="/js/movieindex.min.js"></script>

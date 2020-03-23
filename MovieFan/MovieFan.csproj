@@ -6,16 +6,24 @@
 
 
 
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>BeforeBuild</type>
+          <command>cp -r  "/assets" "/wwwroot/"</command>
+          <externalConsole>True</externalConsole>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
   <ItemGroup>
     <Folder Include="Views\Movie\" />
     <Folder Include="Views\User\" />
     <Folder Include="Models\Generated\" />
     <Folder Include="js\" />
-    <Folder Include="wwwroot\assets\" />
     <Folder Include="assets\" />
     <Folder Include="assets\pictures\" />
-    <Folder Include="wwwroot\assets\pictures\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2">
@@ -31,11 +39,5 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.435" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Remove="wwwroot\assets\pictures\default.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="wwwroot\assets\pictures\default.jpg" />
   </ItemGroup>
 </Project>
